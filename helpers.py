@@ -10,7 +10,7 @@ from nltk.corpus import stopwords
 # nltk.download('wordnet')
 
 
-def search_data(query, n, lT2z6ewZh_lM4r8FSNZnVQblUZf0NMqgELitzgXw5mMHYuDNEZVxTSPhcS8bGt39):
+def search_data(query, n, access_token):
     """
     This function uses the library lyricsgenius to extract the fields
     title, artist, album, date and lyrics and stores them into a pandas dataframe
@@ -21,8 +21,7 @@ def search_data(query, n, lT2z6ewZh_lM4r8FSNZnVQblUZf0NMqgELitzgXw5mMHYuDNEZVxTS
     access_token = your access token of the genius api
     """
 
-    api = genius.Genius(
-        lT2z6ewZh_lM4r8FSNZnVQblUZf0NMqgELitzgXw5mMHYuDNEZVxTSPhcS8bGt39)
+    api = genius.Genius(access_token)
 
     list_lyrics = []
     list_title = []
