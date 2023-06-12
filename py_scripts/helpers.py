@@ -13,30 +13,16 @@ import string
 
 from sklearn.feature_extraction.text import CountVectorizer
 
-import ssl
-'''
-try:
-    _create_unverified_https_context = ssl._create_unverified_context
-except AttributeError:
-    pass
-else:
-    ssl._create_default_https_context = _create_unverified_https_context
+from dotenv import dotenv_values
 
-import nltk.data
+config = dotenv_values(".env")
 
 
- # Solo se descragan una vez por eso se comentan
-nltk.download()
-# nltk.download('stopwords')
-# nltk.download('wordnet')
-# nltk.download('vader_lexicon')
-# nltk.download('punkt')
-'''
 
 from spotipy.oauth2 import SpotifyClientCredentials  # Autenticación para Spotify
 # Datos para usar el API de Spotify
-client_id = 'bdd8236cedd64c3fba1c272816f56da1'
-client_secret = '1addbbc66511419d86b0921906a421f8'
+client_id = config["SPOTIFY_CLIENT_ID"]
+client_secret = config["SPOTIFY_CLIENT_SECRET"]
 client_credentials_manager = SpotifyClientCredentials(
     client_id=client_id, client_secret=client_secret)
 # Objeto para entrar al API
@@ -48,7 +34,7 @@ sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 def search_data(query, n, access_token):
 
     # Se agrega retraso, timeout y reintentos en la consulta de datos, para prevenir fallas de obtención de información
-    api = genius.Genius("h82-IfEGZrSxMbfHVq2kEvCIMWKR6-_5YI-gnKT39g2EE_PJBTS_Gxc0RQsnqFO7",
+    api = genius.Genius(access_token=access_token,
                         sleep_time=0.01, timeout=15, retries=3, verbose=True)
 
     list_lyrics = []
@@ -58,10 +44,10 @@ def search_data(query, n, access_token):
     list_year = []
 
     # Genius, se obtienen canciones del artista por popularidad
-    artist = api.search_artist(query, max_songs=n, sort='popularity')
+    artist = api.search_artist(query, max_songs=n, sort='popularilty')
     songs = artist.songs  # Son las canciones
-    # print(songs)
-    # print(songs[0].stats)
+    print(songs)
+    print(songs[0].stats)
     for song in songs:
         result = sp.search(q="artist:" + song.artist + " track:" +
                            song.title, type="track", limit="1")  # Consulta a Spotipy
