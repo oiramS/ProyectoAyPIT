@@ -44,7 +44,7 @@ def search_data(query, n, access_token):
     list_year = []
 
     # Genius, se obtienen canciones del artista por popularidad
-    artist = api.search_artist(query, max_songs=n, sort='popularilty')
+    artist = api.search_artist(query, max_songs=n, sort='popularity')
     songs = artist.songs  # Son las canciones
     print(songs)
     print(songs[0].stats)
@@ -79,7 +79,7 @@ def clean_lyrics(df, column):
     df[column] = df[column].str.replace(
         r"verse |[1|2|3]|chorus|bridge|outro", "").str.replace("[", "").str.replace("]", "")
     df[column] = df[column].str.lower().str.replace(
-        r"instrumental|intro|guitar|solo", "")
+        r"instrumental|intro|guitar|solo|contributor|embed|contributors", "")
     df[column] = df[column].str.replace("\n", " ").str.replace(
         r"[^\w\d'\s]+", "").str.replace("efil ym fo flah", "")
     df[column] = df[column].str.strip()
